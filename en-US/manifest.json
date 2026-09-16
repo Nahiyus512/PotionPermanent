@@ -1,0 +1,10 @@
+{
+  "id": "potion-permanent",
+  "name": "Potion Eternity",
+  "version": "0.1.0",
+  "framework_version": ">=0.4.0",
+  "author": "TerrariaModder",
+  "description": "Keeps a potion's or food's buff active permanently once you stock the required amount in your inventory or portable storage.",
+  "entry_dll": "PotionPermanent.dll",
+  "multiplayer": "optional"
+}
