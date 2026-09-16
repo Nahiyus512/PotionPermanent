@@ -1,0 +1,22 @@
+<Project>
+
+  <!-- 本机路径配置。别的机器上可以新建一个不入库的 local.props 覆盖其中任意一项：
+
+       <Project>
+         <PropertyGroup>
+           <TerrariaDir>E:\Steam\steamapps\common\Terraria\</TerrariaDir>
+         </PropertyGroup>
+       </Project>
+
+       也可以直接在命令行上传：dotnet build -p:TerrariaDir=E:\Terraria\ -->
+  <Import Project="local.props" Condition="Exists('local.props')" />
+
+  <PropertyGroup>
+    <!-- Terraria 游戏根目录（Terraria.exe 所在处） -->
+    <TerrariaDir Condition="'$(TerrariaDir)' == ''">D:\Game\SteamLibrary\steamapps\common\Terraria\</TerrariaDir>
+
+    <!-- TerrariaModder 安装目录（core\ 与 mods\ 的上级目录） -->
+    <ModderDir Condition="'$(ModderDir)' == ''">$(TerrariaDir)TerrariaModder\</ModderDir>
+  </PropertyGroup>
+
+</Project>
