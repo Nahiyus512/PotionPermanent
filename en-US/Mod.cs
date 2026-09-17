@@ -21,7 +21,7 @@ public class Mod : IMod, IModLifecycle
 
     public string Name => "Potion Eternity";
 
-    public string Version => "0.1.0";
+    public string Version => "0.1.1";
 
     public void Initialize(ModContext context)
     {

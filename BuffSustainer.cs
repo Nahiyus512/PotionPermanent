@@ -143,7 +143,15 @@ public static class BuffSustainer
             }
 
             int buffType = item.buffType;
-            if (buffType <= 0 || item.buffTime <= 0 || Main.debuff[buffType])
+            if (buffType <= 0 || item.buffTime <= 0)
+            {
+                continue;
+            }
+
+            // 酒类（麦酒、清酒）的微醺被游戏登记在 Main.debuff 里（红色图标），
+            // 但它同样是餐饮类消耗品，应当和其它药水、食物一样参与永续；真正有害的减益仍然跳过。
+            bool isFood = item.type > 0 && item.type < ItemID.Sets.IsFood.Length && ItemID.Sets.IsFood[item.type];
+            if (Main.debuff[buffType] && !isFood)
             {
                 continue;
             }

@@ -1,7 +1,7 @@
 {
   "id": "potion-permanent",
   "name": "药水永续",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "framework_version": ">=0.4.0",
   "author": "TerrariaModder",
   "description": "当背包或随身存储药水/食物达到指定数量时，其增益效果永久保持。",
