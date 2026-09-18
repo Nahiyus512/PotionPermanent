@@ -2,7 +2,7 @@
 
 TerrariaModder 模组：当背包或随身存储中同一效果的药水 / 食物达到指定数量时，其增益效果永久保持。
 
-仓库按语言分成两套，源码与成品分开放：
+仓库按语言分成两套：
 
 ```
 potion-permanent\
@@ -15,7 +15,6 @@ potion-permanent\
 └─ README.md
 ```
 
-带界面文字的源码（`Mod.cs`、`PotionPermanentConfig.cs`）在 `en-US\` 和 `zh-CN\` 里各有一份。
 
 ## 编译
 
@@ -26,8 +25,3 @@ dotnet build zh-CN\PotionPermanent.zh-CN.csproj -c Release -p:DeployMod=true   #
 ```
 
 需要 Windows、[.NET SDK](https://dotnet.microsoft.com/download)、Terraria 1.4.5，以及已安装的 TerrariaModder。
-游戏目录等路径在 `Directory.Build.props` 里改，或者建一个不入库的 `local.props` 覆盖。
-
-## 说明
-
-- 两个语言版模组 id 相同（`potion-permanent`），属于同一模组的两个语言包，不能同时安装
