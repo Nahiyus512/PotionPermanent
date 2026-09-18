@@ -690,7 +690,9 @@ public static class BuffController
                 ["favourites"] = new List<int>(_favourites),
                 ["disabled"] = new List<int>(_disabled)
             };
-            AtomicFile.WriteText(_storePath, SidecarJson.Serialize(data), new UTF8Encoding(false));
+            // 用 WriteBytes 而不是 WriteText：同样是先写临时文件再原子替换，
+            // 但内部的 File.Replace 不传备份路径，不会额外留下一个没人用的 .bak
+            AtomicFile.WriteBytes(_storePath, new UTF8Encoding(false).GetBytes(SidecarJson.Serialize(data)));
         }
         catch (Exception ex)
         {
