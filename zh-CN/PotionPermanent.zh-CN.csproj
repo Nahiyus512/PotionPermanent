@@ -20,6 +20,7 @@
     <!-- 核心逻辑没有界面文字，放在上层目录，两个语言版共用同一份 -->
     <Compile Include="..\BuffSustainer.cs" Link="BuffSustainer.cs" />
     <Compile Include="..\BuffController.cs" Link="BuffController.cs" />
+    <Compile Include="..\BuffTooltip.cs" Link="BuffTooltip.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />

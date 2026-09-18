@@ -26,6 +26,7 @@ public static class BuffController
     private const string PanelId = "potion-permanent-buff-controller";
     private const string OwnerModId = "potion-permanent";
     private const string StoreFileName = "buff-controller.json";
+    private const string TooltipPanelId = "potion-permanent-buff-tooltip";
 
     private const int IconsPerRow = 8;
     private const int IconSize = 36;
@@ -78,6 +79,8 @@ public static class BuffController
                 Draggable = true
             };
             _panel.RegisterDrawCallback(DrawPanel);
+            // 悬浮提示自己画：框架的 Tooltip 行距是写死的 16，中文会挤在一起
+            UIRenderer.RegisterPanelDraw(TooltipPanelId, BuffTooltip.Draw);
         }
         catch (Exception ex)
         {
@@ -100,6 +103,8 @@ public static class BuffController
             }
         }
 
+        UIRenderer.UnregisterPanelDraw(TooltipPanelId);
+        BuffTooltip.Clear();
         _panel = null;
         _entries.Clear();
         _activeOrder.Clear();
@@ -136,12 +141,14 @@ public static class BuffController
         {
             _panel.Close();
         }
+
+        BuffTooltip.Clear();
     }
 
     /// <summary>左上角每个增益图标画完之后的回调，用来接管左键点击。</summary>
     public static void OnBuffIconDrawn(int buffSlotOnPlayer, int x, int y)
     {
-        if (_panel == null || !Mod.ControllerEnabled || Main.gameMenu)
+        if (_panel == null || Main.gameMenu)
         {
             return;
         }
@@ -191,58 +198,12 @@ public static class BuffController
     }
 
     /// <summary>
-    /// 便携类家具（水蜡烛等）的增益由 SceneMetrics 的蜡烛计数决定，
-    /// 而计数是在扫描结束之后才被补上的，导致 ZoneXxxCandle 一直是 false、增益拿不到。
-    /// 这里在玩家更新前按计数把标记补上；被关掉的蜡烛则不补，等于真正失效。
-    /// </summary>
-    public static void OnPlayerUpdatePrefix(Player player)
-    {
-        if (!Mod.ControllerEnabled || !Mod.RestoreCandleBuffs)
-        {
-            return;
-        }
-
-        if (player == null || player.whoAmI != Main.myPlayer)
-        {
-            return;
-        }
-
-        try
-        {
-            SceneMetrics metrics = Player.SceneMetrics;
-            if (metrics == null)
-            {
-                return;
-            }
-
-            if (metrics.WaterCandleCount > 0 && !IsDisabled(BuffID.WaterCandle))
-            {
-                metrics.ZoneWaterCandle = true;
-            }
-
-            if (metrics.PeaceCandleCount > 0 && !IsDisabled(BuffID.PeaceCandle))
-            {
-                metrics.ZonePeaceCandle = true;
-            }
-
-            if (metrics.ShadowCandleCount > 0 && !IsDisabled(BuffID.ShadowCandle))
-            {
-                metrics.ZoneShadowCandle = true;
-            }
-        }
-        catch (Exception ex)
-        {
-            Mod.LogDebug("Candle zone fix error: " + ex.Message);
-        }
-    }
-
-    /// <summary>
     /// Player.Update 结束时清理被关掉的增益。
     /// 放在最外层，保证晚于原版以及其它模组（便携工作站、时装增益等）补增益的时机。
     /// </summary>
     public static void OnPlayerUpdatePostfix(Player player)
     {
-        if (_disabled.Count == 0 || !Mod.ControllerEnabled || Main.gameMenu)
+        if (_disabled.Count == 0 || Main.gameMenu)
         {
             return;
         }
@@ -276,7 +237,7 @@ public static class BuffController
             return;
         }
 
-        if (!Mod.ControllerEnabled || Main.gameMenu)
+        if (Main.gameMenu)
         {
             ClosePanel();
             return;
@@ -351,7 +312,7 @@ public static class BuffController
             return;
         }
 
-        Tooltip.Set(BuffName(buffType), TooltipBody(buffType, disabled, favourite));
+        BuffTooltip.Show(BuffName(buffType), TooltipBody(buffType, disabled, favourite));
 
         if (!WidgetInput.MouseLeftClick)
         {
@@ -394,7 +355,7 @@ public static class BuffController
             return;
         }
 
-        Tooltip.Set(BuffControllerText.ResetTooltip);
+        BuffTooltip.Show(BuffControllerText.ResetTooltip);
         if (WidgetInput.MouseLeftClick)
         {
             WidgetInput.ConsumeClick();

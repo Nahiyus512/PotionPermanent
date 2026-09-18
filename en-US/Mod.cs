@@ -16,8 +16,6 @@ public class Mod : IMod, IModLifecycle
     internal static bool Enabled = true;
     internal static int Threshold = 30;
     internal static bool DebugLogging;
-    internal static bool ControllerEnabled = true;
-    internal static bool RestoreCandleBuffs = true;
     internal static string ModFolder;
 
     public string Id => "potion-permanent";
@@ -49,10 +47,6 @@ public class Mod : IMod, IModLifecycle
     public void OnConfigChanged()
     {
         LoadConfig();
-        if (!ControllerEnabled)
-        {
-            BuffController.ClosePanel();
-        }
 
         _log?.Info("Potion Eternity config reloaded");
     }
@@ -81,11 +75,6 @@ public class Mod : IMod, IModLifecycle
         _harmony?.UnpatchAll("com.terrariamodder.potionpermanent");
         BuffController.Shutdown();
         _log?.Info("Potion Eternity unloaded");
-    }
-
-    public static void PlayerUpdatePrefix(Player __instance)
-    {
-        BuffController.OnPlayerUpdatePrefix(__instance);
     }
 
     public static void PlayerUpdatePostfix(Player __instance, int i)
@@ -117,21 +106,20 @@ public class Mod : IMod, IModLifecycle
         try
         {
             MethodInfo update = typeof(Player).GetMethod("Update", new[] { typeof(int) });
-            MethodInfo updatePrefix = typeof(Mod).GetMethod("PlayerUpdatePrefix", BindingFlags.Static | BindingFlags.Public);
             MethodInfo updatePostfix = typeof(Mod).GetMethod("PlayerUpdatePostfix", BindingFlags.Static | BindingFlags.Public);
             MethodInfo updateBuffs = typeof(Player).GetMethod("UpdateBuffs", new[] { typeof(int) });
             MethodInfo updateBuffsPostfix = typeof(Mod).GetMethod("UpdateBuffsPostfix", BindingFlags.Static | BindingFlags.Public);
             MethodInfo drawBuffIcon = typeof(Main).GetMethod("DrawBuffIcon", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             MethodInfo drawBuffIconPostfix = typeof(Mod).GetMethod("DrawBuffIconPostfix", BindingFlags.Static | BindingFlags.Public);
 
-            if (update != null && updatePrefix != null && updatePostfix != null)
+            if (update != null && updatePostfix != null)
             {
-                _harmony.Patch(update, prefix: new HarmonyMethod(updatePrefix), postfix: new HarmonyMethod(updatePostfix));
+                _harmony.Patch(update, postfix: new HarmonyMethod(updatePostfix));
                 _log?.Info("Successfully patched Player.Update");
             }
             else
             {
-                _log?.Error($"Failed to find patch targets - Update: {update != null}, Prefix: {updatePrefix != null}, Postfix: {updatePostfix != null}");
+                _log?.Error($"Failed to find patch targets - Update: {update != null}, Postfix: {updatePostfix != null}");
             }
 
             if (updateBuffs != null && updateBuffsPostfix != null)
@@ -170,7 +158,5 @@ public class Mod : IMod, IModLifecycle
         Enabled = _config.Enabled;
         Threshold = _config.Threshold;
         DebugLogging = _config.DebugLogging;
-        ControllerEnabled = _config.BuffController;
-        RestoreCandleBuffs = _config.RestoreCandleBuffs;
     }
 }
