@@ -7,11 +7,11 @@ TerrariaModder 模组：当背包或随身存储中同一效果的药水 / 食�
 ```
 potion-permanent\
 ├─ en-US\   英文版源码：Mod.cs、PotionPermanentConfig.cs、csproj、manifest.json、README.md
-│  └─ bin\  英文版成品：PotionPermanent.dll、manifest.json、README.md（直接复制进 TerrariaModder\mods\potion-permanent\）
+│  └─ bin\  英文版成品：PotionPermanent.dll、manifest.json、README.md
 ├─ zh-CN\   中文版源码（同上）
 │  └─ bin\  中文版成品
-├─ BuffSustainer.cs                     核心逻辑：统计数量、维持增益（与语言无关，两个版本共用）
-├─ Directory.Build.props / .targets     本机路径配置、安装到 TerrariaModder 的逻辑
+├─ BuffSustainer.cs                     
+├─ Directory.Build.props / .targets     
 └─ README.md
 ```
 
