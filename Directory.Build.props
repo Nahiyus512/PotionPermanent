@@ -17,6 +17,9 @@
 
     <!-- TerrariaModder 安装目录（core\ 与 mods\ 的上级目录） -->
     <ModderDir Condition="'$(ModderDir)' == ''">$(TerrariaDir)TerrariaModder\</ModderDir>
+
+    <!-- XNA 程序集所在的 GAC 目录，装了 XNA 4.0 可再发行组件后才会有（画界面要用） -->
+    <XnaGacDir Condition="'$(XnaGacDir)' == ''">C:\Windows\Microsoft.NET\assembly\GAC_32\</XnaGacDir>
   </PropertyGroup>
 
 </Project>

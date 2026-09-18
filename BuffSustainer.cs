@@ -53,7 +53,7 @@ public static class BuffSustainer
         for (int i = 0; i < player.buffType.Length && i < player.buffTime.Length; i++)
         {
             int buffType = player.buffType[i];
-            if (buffType > 0 && _sustained.Contains(buffType) && player.buffTime[i] != 2)
+            if (buffType > 0 && _sustained.Contains(buffType) && !BuffController.IsDisabled(buffType) && player.buffTime[i] != 2)
             {
                 player.buffTime[i] = 2;
             }
@@ -75,7 +75,7 @@ public static class BuffSustainer
         int bestFoodPriority = -1;
         foreach (KeyValuePair<int, int> entry in _counts)
         {
-            if (entry.Value >= Mod.Threshold && BuffID.Sets.IsFedState[entry.Key])
+            if (entry.Value >= Mod.Threshold && BuffID.Sets.IsFedState[entry.Key] && !BuffController.IsDisabled(entry.Key))
             {
                 int priority = BuffID.Sets.SortingPriorityFoodBuffs[entry.Key];
                 if (priority > bestFoodPriority)
@@ -90,6 +90,12 @@ public static class BuffSustainer
         {
             int buffType = entry.Key;
             if (entry.Value < Mod.Threshold)
+            {
+                continue;
+            }
+
+            // 增益控制器里被关掉的增益不参与永续
+            if (BuffController.IsDisabled(buffType))
             {
                 continue;
             }

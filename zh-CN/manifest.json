@@ -1,10 +1,10 @@
 {
   "id": "potion-permanent",
   "name": "药水永续",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "framework_version": ">=0.4.0",
   "author": "TerrariaModder",
-  "description": "当背包或随身存储药水/食物达到指定数量时，其增益效果永久保持。",
+  "description": "当背包或随身存储药水/食物达到指定数量时，其增益效果永久保持；并提供增益控制器，点击左上角增益图标即可开关/收藏增益。",
   "entry_dll": "PotionPermanent.dll",
   "multiplayer": "optional"
 }

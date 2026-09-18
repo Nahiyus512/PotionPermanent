@@ -18,6 +18,7 @@
   <ItemGroup>
     <!-- 核心逻辑没有界面文字，放在上层目录，两个语言版共用同一份 -->
     <Compile Include="..\BuffSustainer.cs" Link="BuffSustainer.cs" />
+    <Compile Include="..\BuffController.cs" Link="BuffController.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
@@ -33,6 +34,18 @@
     </Reference>
     <Reference Include="Terraria">
       <HintPath>$(TerrariaDir)Terraria.exe</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework">
+      <HintPath>$(XnaGacDir)Microsoft.Xna.Framework\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game">
+      <HintPath>$(XnaGacDir)Microsoft.Xna.Framework.Game\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Game.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics">
+      <HintPath>$(XnaGacDir)Microsoft.Xna.Framework.Graphics\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Graphics.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
